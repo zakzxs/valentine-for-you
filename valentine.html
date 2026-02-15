@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>valentine for you</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fad0c4,#ff9a9e);
+    overflow:hidden;
+}
+
+.container{
+    text-align:center;
+    width:90%;
+    max-width:420px;
+}
+
+.section{
+    opacity:0;
+    transition:1s ease;
+    display:none;
+}
+
+.section.active{
+    display:block;
+    opacity:1;
+}
+
+/* INTRO */
+.intro img{
+    width:170px;
+    margin-bottom:20px;
+    border:4px solid white;
+    border-radius:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+h2{
+    font-weight:600;
+}
+
+input{
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    width:80%;
+    font-size:1rem;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+button{
+    margin-top:15px;
+    padding:10px 25px;
+    border:none;
+    border-radius:25px;
+    background:#ff6b9d;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#ff4f8b;
+    transform:scale(1.05);
+}
+
+/* ENVELOPE */
+.envelope-wrapper{
+    perspective:1000px;
+}
+
+.envelope{
+    width:220px;
+    height:150px;
+    margin:auto;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:1s;
+    cursor:pointer;
+}
+
+.envelope .body{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.3);
+}
+
+.envelope .flap{
+    position:absolute;
+    top:0;
+    width:100%;
+    height:100%;
+    background:#ffe3ec;
+    clip-path:polygon(0 0, 100% 0, 50% 60%);
+    transform-origin:top;
+    transition:1s;
+}
+
+.envelope.open .flap{
+    transform:rotateX(180deg);
+}
+
+/* LETTER */
+.letter-box{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+    animation: fadeIn 1s ease;
+}
+
+.letter-box img{
+    width:220px;
+    margin-bottom:20px;
+}
+
+.text{
+    text-align:left;
+    font-size:0.95rem;
+    line-height:1.7;
+    white-space:pre-line;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- INTRO -->
+    <div class="section intro active" id="intro">
+        <img src="cat.jpg" alt="cat">
+        <h2>Masukkan nama kamu</h2>
+        <input type="text" id="nameInput" placeholder="nama kamu">
+        <br>
+        <button onclick="start()">enter</button>
+    </div>
+
+    <!-- ENVELOPE -->
+    <div class="section" id="envelopeSection">
+        <div class="envelope-wrapper">
+            <div class="envelope" id="envelope" onclick="openEnvelope()">
+                <div class="body"></div>
+                <div class="flap"></div>
+            </div>
+        </div>
+        <p>klik amplopnya</p>
+    </div>
+
+    <!-- LETTER -->
+    <div class="section" id="letterSection">
+        <div class="letter-box">
+            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHExMHNpbXZpdjJvYmdqOG93bjIwaGU2dHVnMGtlYWp2NDhybHY4bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6hKL8BI8rRNrMRFtAx/giphy.gif">
+            <div class="text" id="typedText"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let userName = "";
+
+function start(){
+    userName = document.getElementById("nameInput").value.trim();
+    if(userName==="") return;
+    switchSection("intro","envelopeSection");
+}
+
+function openEnvelope(){
+    const envelope = document.getElementById("envelope");
+    envelope.classList.add("open");
+
+    setTimeout(()=>{
+        switchSection("envelopeSection","letterSection");
+        typeText();
+    },1500);
+}
+
+function switchSection(hideId,showId){
+    document.getElementById(hideId).classList.remove("active");
+    setTimeout(()=>{
+        document.getElementById(hideId).style.display="none";
+        const next = document.getElementById(showId);
+        next.style.display="block";
+        setTimeout(()=> next.classList.add("active"),50);
+    },500);
+}
+
+function typeText(){
+    const text = `hai ${userName} selamat hari valentine yaa semoga hari ini membawa ketenangan kecil untuk hati kamu walaupun mungkin belum ada seseorang yang berdiri di samping kamu bukan berarti kamu sendirian di dunia ini kamu tetap berharga tetap layak dicintai dan tetap pantas mendapatkan kebahagiaan yang utuh perjalanan hidup setiap orang berbeda dan mungkin sekarang adalah waktunya kamu bertumbuh mengenal diri sendiri lebih dalam dan mempersiapkan masa depan yang lebih baik percayalah suatu hari nanti akan ada seseorang yang datang bukan untuk melengkapi kamu tetapi untuk berjalan berdampingan bersama kamu sampai saat itu tiba tetaplah tersenyum tetaplah menjadi versi terbaik dari diri kamu sendiri dan nikmati setiap langkah kecil yang kamu jalani hari ini`;
+
+    const target = document.getElementById("typedText");
+    target.textContent="";
+    let i=0;
+
+    const interval = setInterval(()=>{
+        target.textContent += text[i];
+        i++;
+        if(i>=text.length){
+            clearInterval(interval);
+        }
+    },25);
+}
+</script>
+
+</body>
+</html>
